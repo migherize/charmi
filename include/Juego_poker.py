@@ -1,3 +1,4 @@
+import os
 import Jugador
 import Charmi
 import Jugar
@@ -10,15 +11,15 @@ while inicio != "si" and inicio != "no":
     inicio = input("Responde si o no porfavor. ¿Deseas Inscribirte? (si/no):")
 
 if(inicio == "si"):
+    os.system('clear')
     print("Introduzca su Nombre: ")
     nombre = input()
     usuario = Jugador.Jugador(nombre, 1000)
     charmi = Charmi.Charmi("charmi",1000)
     print("Bienvenido ", usuario.name)
 
-    while  ( usuario.bote != 0) and (charmi.bote != 0):
+    while ( usuario.bote != 0) and (charmi.bote != 0):
         partida = Jugar.Juego(charmi,usuario)
-
         #Ciegas minima y maxima
         partida.ciegas()
 

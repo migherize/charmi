@@ -5,7 +5,7 @@ import Charmi
 
 class Carta:
     lista_Palos = ["nada","Corazones","Picas","Diamantes","Tréboles"]
-    lista_naipes = ["nada","As","2","3","4","5","6","7","8","9","10","Sota","Reina","Rey","AS 14"]
+    lista_naipes = ["nada","As","2","3","4","5","6","7","8","9","10","Jota","Reina","Rey","AS 14"]
 
     def __init__(self,palo=0,valor=0):
         self.palo=palo
@@ -40,7 +40,8 @@ class Mazo:
         return self.cartas.pop(0)
 
     def repartirc(self,c):
-        return self.cartas[c]
+        return self.cartas.pop(c)
+        #return self.cartas[c]
 
     def retornar(self,c):
         self.cartas.append(c)

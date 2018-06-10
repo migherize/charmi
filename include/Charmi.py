@@ -1,4 +1,7 @@
 import Jugador
+import Mazo
+import Mesa
+import Mano
 
 class Charmi:
 

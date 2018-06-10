@@ -24,19 +24,16 @@ class Jugador:
     def apuesta(self):
         opcion = int(input(print("""Acaba de obtener sus dos cartas
                        1)Desea ir: 
-                       2)Desea subir: 
-                       3)Desea all in 
-                       4)Desea retirarse: 
+                       2)Desea retirarse: 
 
                """)))
         if opcion == 1:
             print("pasar a flop")
             return True
 
-        elif opcion == 2:
+        elif opcion != 1:
             #charmi iguala si le conviene
-            print("subio")
-            return True
+            return False
 
         elif opcion == 3:
             #charmi no va si no le conviene
