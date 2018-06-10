@@ -2,10 +2,14 @@ import Jugador
 import Mazo
 import Mesa
 import Mano
+import Probabilidades
 
 mazo_poker = Mazo.Mazo()
 mesa = Mesa.Mesa()
 mazo_poker.mezclar()
+
+x = 50
+y = 100
 
 class Juego:
 
@@ -14,12 +18,16 @@ class Juego:
         self.usuario = usuario
 
     def ciegas(self):
+
+        global x,y
+        x,y = y,x
+
         print("Empezaremoos con las ciegas tipicas del juego")
         print("Yo sere la minima esta ocasion 50$")
-        self.charmi.bote = (self.charmi.bote - 50)
+        self.charmi.bote = (self.charmi.bote - x)
         print("tu sere la maxima esta ocasion 100$")
-        self.usuario.bote = (self.usuario.bote - 100)
-        
+        self.usuario.bote = (self.usuario.bote - y)
+
     def preflop(self):
         self.usuario.recibir_mano(mazo_poker.repartir())
         self.charmi.recibir_mano(mazo_poker.repartir())
@@ -52,7 +60,7 @@ class Juego:
         mesa.mostrar_mano()
 
     def river(self):
-        # Se quema una carta
+        #Se quema una carta
         mesa.quemar(mazo_poker.repartir())
         mesa.recibir_mano(mazo_poker.repartir())
 
@@ -61,11 +69,29 @@ class Juego:
 
     def final(self):
         print("veremos quien gana")
-        mano = Mano.hand(self.charmi.pasar_mano(),mesa.pasar_mano())
-        mano.unir()
+        mano_charmi = Mano.hand(self.charmi.pasar_mano(),mesa.pasar_mano())
+        mano_charmi.unir()
+        resultado = mano_charmi.manos()
+        pc = Probabilidades.pro(resultado)
+        proba = pc.prob()
+        print("Resultado charmi",resultado,"Probabilidad",proba)
+
+        mano_usuario = Mano.hand(self.usuario.pasar_mano(), mesa.pasar_mano())
+        mano_usuario.unir()
+        resultado2 = mano_usuario.manos()
+        pu = Probabilidades.pro(resultado2)
+        probau = pu.prob()
+
+        print("Resultado jugador", resultado2,"Probabilidad",probau)
+
+        if resultado < resultado2:
+            print("gana jugador")
+        elif resultado > resultado2:
+            print("gana charmi")
+        else:
+            print("Empate")
+
         #mano.mostrar()
-
-
 
     def ronda(self):
 
@@ -85,7 +111,6 @@ class Juego:
         mazo_poker.retornar(mesa.qregresar())
         mazo_poker.retornar(mesa.qregresar())
 
-        print("hola")
         #self.charmi.mostrar_mano()
         #self.usuario.mostrar_mano()
         #mesa.mostrar_mano()
