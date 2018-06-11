@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="mesa">
+    <file>mesapoker.jpg</file>
+  </qresource>
+</RCC>

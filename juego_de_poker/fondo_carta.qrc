@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="fc">
+    <file>fondo_carta.jpg</file>
+  </qresource>
+</RCC>
