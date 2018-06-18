@@ -97,7 +97,7 @@
      <string notr="true">color: rgb(227, 0, 0);</string>
     </property>
     <property name="text">
-     <string>fgfdgfd</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="label">
