@@ -4,6 +4,7 @@ import Mazo
 import Mesa
 import Mano
 import Charmi
+from desempate import parametros
 
 class hand:
     
@@ -11,6 +12,8 @@ class hand:
         self.hand = []
         self.mano = mano
         self.mesa = mesa
+        self.c = 0
+        self.e = 0
 
     def mostrar(self):
 
@@ -22,6 +25,23 @@ class hand:
     def unir(self):
        self.hand = self.mano + self.mesa
 
+    def As(self):
+        
+        for A in range(0,len(self.hand)):
+            if self.hand[A].valor == 1:
+                return True
+
+    def T_As(self):
+        
+        for A in range(0,len(self.hand)):
+            if self.hand[A].valor == 1:
+                self.hand[A].valor = 14
+
+    def I_As(self):
+        
+        for A in range(0,len(self.hand)):
+            if self.hand[A].valor == 14:
+                self.hand[A].valor = 1
 
     # Menor a mayor
     def sort(self, hand_sort):
@@ -34,107 +54,19 @@ class hand:
                     hand_sort[j] = k
         return hand_sort
 
-    def color(self):
+    def escalera_real(self):
 
-        for co in range(0, (len(self.hand)//2)):
-            color = 1
-            for c in range(co+1, len(self.hand)):
-                if self.hand[co].palo == self.hand[c].palo:
-                    color += 1
-            if color == 5:
-                return True
+        if self.escalera() and self.color():
+            #Arreglar que es el As este en la escalera
+            return True
 
         return False
-
-    def escalera(self):
-
-        hands = self.hand
-        self.hand = self.sort(hands)
-        Resp = False
-
-        for v in range(0, 3):
-            m_escalera = 1
-            for c in range(v, len(self.hand)-1):
-                if (self.hand[c].valor + 1) == self.hand[c + 1].valor:
-                    m_escalera += 1
-                    if m_escalera == 5:
-                        Resp=True
-                        return Resp
-                else:
-                    c=4
-
-        """
-        if escalera[0].valor == 1 and Resp == False:
-            escalera[0].valor = 14
-            cambio = escalera.pop(0)
-            escalera.append(cambio)
-
-            for v in range(0, 3):
-                m_escalera = 1
-                for c in range(v, 6):
-                    if ((escalera[c].valor) + 1) == escalera[c + 1].valor:
-                        m_escalera += 1
-                        if m_escalera == 5:
-                            Resp = True
-                            return Resp
-        """
-        return Resp
 
     def escalera_color(self):
 
         if self.escalera() and self.color():
             return True
 
-        return False
-
-    def escalera_real(self):
-        self.hand
-        As = False
-
-        if self.escalera() == False:
-
-            for a in range (0,len(self.hand)):
-                if self.hand[a].valor == 1:
-                    As = True
-
-            if self.escalera() and self.color() and As:
-                return True
-
-        return False
-
-    def pareja(self):
-
-        for i in range(0,len(self.hand)):
-            for j in range(i+1,len(self.hand)):
-                if self.hand[i].valor == self.hand[j].valor:
-                   return True
-        return False
-
-    def doble_pareja(self):
-        hands=self.hand
-        self.hand = self.sort(hands)
-
-        self.hand.reverse()
-        pareja = 0
-
-        for i in range(0, len(self.hand)-1):
-            j=i+1
-            if self.hand[i].valor == self.hand[j].valor:
-                pareja += 1
-                if pareja == 2:
-                    return True
-
-        return False
-
-    def trio(self):
-
-        for i in range(0,len(self.hand)):
-            trio = 1
-            for j in range(i+1,len(self.hand)):
-                if self.hand[i].valor == self.hand[j].valor:
-                    trio += 1
-                    if trio == 3:
-                        return True
         return False
 
     def poker(self):
@@ -187,6 +119,78 @@ class hand:
                     return False
         return False
 
+    def color(self):
+
+        for co in range(0, (len(self.hand)//2)):
+            color = 1
+            for c in range(co+1, len(self.hand)):
+                if self.hand[co].palo == self.hand[c].palo:
+                    color += 1
+            if color == 5:
+                return True
+            else:
+                if self.c<color:
+                    self.c=color
+
+        return False
+
+    def escalera(self):
+
+        hands = self.hand
+        self.hand = self.sort(hands)
+        Resp = False
+
+        for v in range(0, 3):
+            m_escalera = 1
+            for c in range(v, len(self.hand)-1):
+                if (self.hand[c].valor + 1) == self.hand[c + 1].valor:
+                    m_escalera += 1
+
+                    if m_escalera == 5:
+                        Resp=True
+                        return Resp
+                else:
+                    if self.e<m_escalera:
+                        self.e=m_escalera
+                    c=4
+                    m_escalera=1
+        return Resp
+
+    def trio(self):
+
+        for i in range(0,len(self.hand)):
+            trio = 1
+            for j in range(i+1,len(self.hand)):
+                if self.hand[i].valor == self.hand[j].valor:
+                    trio += 1
+                    if trio == 3:
+                        return True
+        return False
+
+    def doble_pareja(self):
+        hands=self.hand
+        self.hand = self.sort(hands)
+
+        self.hand.reverse()
+        pareja = 0
+
+        for i in range(0, len(self.hand)-1):
+            j=i+1
+            if self.hand[i].valor == self.hand[j].valor:
+                pareja += 1
+                if pareja == 2:
+                    return True
+
+        return False
+
+    def pareja(self):
+
+        for i in range(0,len(self.hand)):
+            for j in range(i+1,len(self.hand)):
+                if self.hand[i].valor == self.hand[j].valor:
+                   return True
+        return False
+
     def carta_alta(self):
         hands = self.hand
         self.hand = self.sort(hands)
@@ -196,73 +200,127 @@ class hand:
 
     def manos(self):
 
-        #for m in self.hand:
-            #print("La mano que tienes es: ",m)
+        if self.As():
+            self.T_As()
+            if self.escalera_real():
+                self.I_As()
+                return 10
+            self.I_As()
+
+        elif self.escalera_color():
+            return 9
+
+        self.T_As()
 
         if self.poker():
+            self.I_As()
             return 8
 
         elif self.fullon():
+            self.I_As()
             return 7
 
         elif self.fullin():
+            self.I_As()
             return 6
 
         elif self.color():
+            self.I_As()
             return 5
 
         elif self.escalera():
+            self.I_As()
             return 4
 
-        elif self.trio():
+        if self.As():
+            self.I_As()
+            if self.escalera():
+                return 4
+
+        self.T_As()
+
+        if self.trio():
+            self.I_As()
             return 3
 
         elif self.doble_pareja():
+            self.I_As()
             return 2
 
         elif self.pareja():
+            self.I_As()
             return 1
 
         else:
+            self.I_As()
             return 0
-          #  return self.carta_alta()
 
-        """
-        if self.color():
-            if self.escalera():
-                if self.As():
-                    print("Tienes escalera Real de color")
-                    return 10
-                else:
-                    print("Tienes Escalera de color")
-                    return 9
-            else:
-                print("Tienes color")
-                return 5
-        
-        else:
-            if self.poker():
-                print("Tienes Poker")
-                return 8
-            
-            if self.fullon():
-                print("Tienes Full House")
-                return 7
-            if self.fullin():
-                print("Tienes Full House")
-                return 6
-            
-            if self.trio():
-                print("Tienes Trio")
-                return 3
-            if self.doble_pareja():
-                print("Tienes 2 pares")
-                return 2
-            if self.pareja():
-                print("Tienes un par")
-                return 1
-            else:
-                print("carta alta", self.carta_alta())
-                return 0
+    def preflop(self,m):
 
-        """
+        self.T_As()
+
+        mano= self.mano
+        self.mano=self.sort(mano)
+        self.mano.reverse()
+
+        if m == 0:
+            if self.mano[0].palo == self.mano[1].palo:
+                self.I_As()
+                return True
+            elif (self.mano[0].valor + 4) < self.mano[1].valor and self.mano[0].valor < 8:
+                self.I_As()
+                return False
+            self.I_As()
+            return True
+        elif m==1:
+            return True
+
+    def flop(self,m):
+
+        self.T_As()
+        mano= self.mano
+        self.mano=self.sort(mano)
+        self.mano.reverse()
+
+        if m == 0:
+            #Arreglar propensa escalera
+            print("propenso escalera",self.e)
+            print("propenso color",self.c)
+
+            if self.e > 2:
+                return True
+            elif self.c > 2:
+                return True
+            elif self.mano[0].valor>8:
+                return True
+            return False
+        elif m==1:
+            desempates = parametros(self.mano,self.mesa)
+            desempates.unir()
+
+            n,cm,cartasA,s_cartasA=desempates.ganar(m)
+            if cartasA[0].valor < 5 and self.mano[0].valor < 7:
+                return False
+            else:
+                return True 
+        elif m>1:
+            return True
+"""
+    def turn(self,m):
+
+        if m == 0:
+            return 0
+        elif m==1:
+            return 1
+        elif m>1:
+            return 2
+
+    def river(self,m):
+
+        if m == 0:
+            return 0
+        elif m==1:
+            return 1
+        elif m>1:
+            return 2
+"""

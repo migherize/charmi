@@ -40,7 +40,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.ventana = QtWidgets.QMainWindow()
 		self.ui = Ui_sala()
 		self.ui.setupUi(self.ventana)
-		self.ventana.show()	#Para ver
+		self.ventana.showMaximized()	#Para ver
 		
 		user = self.usuario.text()
 		self.ui.bienvenido.setText(str("Hola " + user + " Bienvenido"))

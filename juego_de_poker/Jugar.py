@@ -3,6 +3,7 @@ import Mazo
 import Mesa
 import Mano
 import Probabilidades
+from desempate import parametros
 
 mazo_poker = Mazo.Mazo()
 mesa = Mesa.Mesa()
@@ -40,6 +41,18 @@ class Juego:
         print("usuario 2: ",self.charmi.name,"   bote:",self.charmi.bote)
         self.charmi.mostrar_mano()
 
+        mano_charmi = Mano.hand(self.charmi.pasar_mano(),mesa.pasar_mano())
+        mano_charmi.unir()
+        resultado = mano_charmi.manos()
+
+        pc = Probabilidades.pro(resultado)
+        proba = pc.prob()
+
+        print("Resultado charmi",resultado,"Probabilidad",proba)
+
+        decision = mano_charmi.preflop(resultado)
+        print("sigo",decision)
+
     #Segunda fase
     def flop(self):
         # Se quema una carta
@@ -51,6 +64,18 @@ class Juego:
         print("Mesa")
         mesa.mostrar_mano()
 
+        mano_charmi = Mano.hand(self.charmi.pasar_mano(),mesa.pasar_mano())
+        mano_charmi.unir()
+        resultado = mano_charmi.manos()
+
+        pc = Probabilidades.pro(resultado)
+        proba = pc.prob()
+
+        print("Resultado charmi",resultado,"Probabilidad",proba)
+
+        decision = mano_charmi.flop(resultado)
+        print("sigo flop",decision)
+
     def turn(self):
         # Se quema una carta
         mesa.quemar(mazo_poker.repartir())
@@ -58,6 +83,15 @@ class Juego:
 
         print("Mesa")
         mesa.mostrar_mano()
+
+        mano_charmi = Mano.hand(self.charmi.pasar_mano(),mesa.pasar_mano())
+        mano_charmi.unir()
+        resultado = mano_charmi.manos()
+
+        pc = Probabilidades.pro(resultado)
+        proba = pc.prob()
+
+        print("Resultado charmi",resultado,"Probabilidad",proba)
 
     def river(self):
         #Se quema una carta
@@ -67,14 +101,39 @@ class Juego:
         print("Mesa")
         mesa.mostrar_mano()
 
+        mano_charmi = Mano.hand(self.charmi.pasar_mano(),mesa.pasar_mano())
+        mano_charmi.unir()
+        resultado = mano_charmi.manos()
+
+        pc = Probabilidades.pro(resultado)
+        proba = pc.prob()
+
+        print("Resultado charmi",resultado,"Probabilidad",proba)
+
     def final(self):
         print("veremos quien gana")
         mano_charmi = Mano.hand(self.charmi.pasar_mano(),mesa.pasar_mano())
         mano_charmi.unir()
         resultado = mano_charmi.manos()
+
         pc = Probabilidades.pro(resultado)
         proba = pc.prob()
+
         print("Resultado charmi",resultado,"Probabilidad",proba)
+        
+        parametro = parametros(self.charmi.pasar_mano(),mesa.pasar_mano())
+        parametro.unir()
+        num,cm,car_mano,car_altas =parametro.ganar(resultado)
+
+        print("parametros")
+        print("num",num)
+        print("carta de la mano",cm)
+        print("cartas de la jugada")
+        for a in car_mano:
+            print("cartas ju",a)
+        print("cartas de resto")
+        for a in car_altas:
+            print("rest",a)
 
         mano_usuario = Mano.hand(self.usuario.pasar_mano(), mesa.pasar_mano())
         mano_usuario.unir()

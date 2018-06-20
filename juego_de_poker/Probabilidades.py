@@ -3,6 +3,7 @@ class pro:
     def __init__(self,m):
         self.mano = m
 
+    #Probabilidad de ganar con esa mano
     def prob(self):
         if self.mano == 10:
             probabilidad = 100 - 4 / 2598960 *100
@@ -53,6 +54,8 @@ class pro:
             probabilidad = 100 - 1302540 / 2598960 *100
             probabilidad = round(probabilidad, 3)
             return probabilidad
+
+    #probabilidad de que le salga esa mano.
 
     def probabilidad(self):
         if self.mano == 10:

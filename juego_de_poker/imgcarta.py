@@ -49,9 +49,9 @@ class imagen:
 		elif self.v == 13 and self.p == 1:
 			img1 = "border-image: url(:/mazo/KC.jpg);"
 			return(img1)
-    	#elif self.v == 13 and self.p == 1:
-		#	img1 = "border-image: url(:/mazo/KC.jpg);"
-		#	return(img1)
+		elif self.v == 14 and self.p == 1:
+			img1 = "border-image: url(:/mazo/AC.jpg);"
+			return(img1)
 
 		#Cartas Pica
 		elif self.v == 1 and self.p == 2:
@@ -92,6 +92,9 @@ class imagen:
 			return(img1)
 		elif self.v == 13 and self.p == 2:
 			img1 = "border-image: url(:/mazo/KP.jpg);"
+			return(img1)
+		elif self.v == 14 and self.p == 2:
+			img1 = "border-image: url(:/mazo/ASP.jpg);"
 			return(img1)
 
 		#Cartas Diamante
@@ -135,6 +138,9 @@ class imagen:
 		elif self.v == 13 and self.p == 3:
 			img1 = "border-image: url(:/mazo/KD.jpg);"
 			return(img1)
+		elif self.v == 14 and self.p == 3:
+			img1 = "border-image: url(:/mazo/AD.jpg);"
+			return(img1)
 
 		#Carta Trebol
 
@@ -176,4 +182,7 @@ class imagen:
 			return(img1)
 		elif self.v == 13 and self.p == 4:
 			img1 = "border-image: url(:/mazo/KT.jpg);"
+			return(img1)
+		elif self.v == 14 and self.p == 4:
+			img1 = "border-image: url(:/mazo/AT.jpg);"
 			return(img1)

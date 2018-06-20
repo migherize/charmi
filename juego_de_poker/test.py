@@ -5,9 +5,10 @@ from Jugar import Juego
 from Mazo import Mazo,Carta
 from Mano import hand
 from Probabilidades import pro
+from desempate import parametros
 
 class NotificacionesTest(unittest.TestCase):
-
+    """
     def test_jugador(self):
         nombre = 'Jugador'
         usuario = Jugador(nombre,1000)
@@ -153,34 +154,30 @@ class NotificacionesTest(unittest.TestCase):
 
         else:
             print("No tiene color")
-
+    """
     def test_hand_escalera(self):
         mazo = Mazo()
 
         usuario = []
 
         usuario.append(mazo.repartirc(0))
-        usuario.append(mazo.repartirc(14))
+        usuario.append(mazo.repartirc(4))
 
         mesa = []
 
-        mesa.append(mazo.repartirc(13))
-        mesa.append(mazo.repartirc(11))
-        mesa.append(mazo.repartirc(26))
-        mesa.append(mazo.repartirc(37))
-        mesa.append(mazo.repartirc(9))
+        mesa.append(mazo.repartirc(8))
+        mesa.append(mazo.repartirc(39))
+        mesa.append(mazo.repartirc(2))
+        mesa.append(mazo.repartirc(5))
+        mesa.append(mazo.repartirc(24))
+
 
         evaluar = hand(usuario,mesa)
         evaluar.unir()
+        evaluar.mostrar()
         res = evaluar.manos()
 
         print("Mano de escalera")
-
-        for c in usuario:
-            print(c)
-
-        for c in mesa:
-            print(c)
 
         p = pro(res)
         proba = p.prob()
@@ -191,6 +188,23 @@ class NotificacionesTest(unittest.TestCase):
         else:
             print("No tiene escalera",proba)
 
+        desempates = parametros(usuario,mesa)
+        desempates.unir()
+        print("carga")
+
+        n,cm,cartasA,s_cartasA = desempates.ganar(res)
+
+        print("n",n)
+        print("cm",cm)
+
+        print("jugada")
+        for a in cartasA:
+            print (a)
+        print("resto")
+        for b in s_cartasA:
+            print(b)
+
+    """
     def test_hand_trio(self):
         mazo = Mazo()
 
@@ -337,13 +351,73 @@ class NotificacionesTest(unittest.TestCase):
         print("propensa",propensa)
 
 
+    def test_As(self):
+        mazo = Mazo()
 
+        usuario = []
+
+        usuario.append(mazo.repartirc(0))
+        usuario.append(mazo.repartirc(12))
+
+        mesa = []
+
+        mesa.append(mazo.repartirc(24))
+        mesa.append(mazo.repartirc(34))
+        mesa.append(mazo.repartirc(28))
+        mesa.append(mazo.repartirc(42))
+        mesa.append(mazo.repartirc(5))
+
+        evaluar = hand(usuario,mesa)
+        evaluar.unir()
+
+        print("AS",evaluar.As())
+        evaluar.T_As()
+        evaluar.mostrar()
         
-        
+        print("As normal")
+        evaluar.I_As()
+        evaluar.mostrar()
+    
 
+    def test_cartaalta(self):
 
+        mazo=Mazo()
 
+        usuario = []
 
+        usuario.append(mazo.repartirc(9))
+        usuario.append(mazo.repartirc(31))
 
+        mesa = []
+
+        mesa.append(mazo.repartirc(31))
+        mesa.append(mazo.repartirc(31))
+        mesa.append(mazo.repartirc(31))
+        mesa.append(mazo.repartirc(31))
+        mesa.append(mazo.repartirc(25))
+
+        for u in usuario:
+            print(u)
+
+        for m in mesa:
+            print(m)
+
+        desempates = parametros(usuario,mesa)
+        desempates.unir()
+        print("carga")
+        #n_cartas,mano_user,cartasA
+        n,cm,cartasA,s_cartasA = desempates.ganar(9)
+        #n,cm,cartasA = desempates.pareja()
+        #s_cartasA= desempates.carta_alta(cartasA)
+        print("n",n)
+        print("cm",cm)
+
+        print("jugada")
+        for a in cartasA:
+            print (a)
+        print("resto")
+        for b in s_cartasA:
+            print(b)
+    """
 if __name__ == '__main__':
     unittest.main()

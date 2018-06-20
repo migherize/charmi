@@ -81,10 +81,10 @@
    <widget class="QLineEdit" name="usuario">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>90</y>
-      <width>141</width>
-      <height>31</height>
+      <x>670</x>
+      <y>80</y>
+      <width>161</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="toolTip">
@@ -94,7 +94,8 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff5500;&quot;&gt;sasa&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(227, 0, 0);</string>
+     <string notr="true">color: rgb(227, 0, 0);
+font: 75 16pt &quot;Noto Sans&quot;;</string>
     </property>
     <property name="text">
      <string/>
@@ -103,17 +104,17 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>90</y>
-      <width>141</width>
-      <height>31</height>
+      <x>470</x>
+      <y>80</y>
+      <width>181</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(170, 0, 0);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Escribe tu nombre&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Escribe tu nombre&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>

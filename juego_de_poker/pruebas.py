@@ -1,15 +1,25 @@
-def numeros(div,divisor):
+def numeros(div,divisor,pro=0):
+    hola = []
     cociente = div//divisor
     resto = div % divisor
-    return cociente,resto,div
+    a=10
+    b=5
+    hola.append(a)
+    hola.append(b)
+    return cociente,resto,div,hola
 
-e,f,d = numeros(14,4)
+e,f,d,h= numeros(14,4)
 
 print("e: ",e)
 
 print("f: ",f)
 
 print("div",d)
+
+print("h",h[0])
+print("h",h[1])
+
+
 
 x=1
 y=2
