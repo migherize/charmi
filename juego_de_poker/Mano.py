@@ -305,22 +305,39 @@ class hand:
                 return True 
         elif m>1:
             return True
-"""
-    def turn(self,m):
 
-        if m == 0:
-            return 0
-        elif m==1:
-            return 1
-        elif m>1:
-            return 2
+    def propensa_escalera(self):
 
-    def river(self,m):
+        hand = self.hand
+        hand = self.sort(hand)
+        remove1 = []
+        m=0
 
-        if m == 0:
-            return 0
-        elif m==1:
-            return 1
-        elif m>1:
-            return 2
-"""
+        cont=1
+
+        #Consigue posicion de valor repetido
+        for c in range(0,len(hand)-1):
+
+            if hand[c].valor==hand[c+1].valor:
+                remove1.append(c)
+
+        #me depura que la lista no tenga valores repetidos
+        for a in range(0,len(remove1)):
+            hand.pop(remove1[a])
+
+
+        #propensa a escalera
+        for i in range(0,len(self.hand)//2):
+            count=1
+            for j in range(i+1,len(self.hand)):
+                card1 = hand[i].valor
+                card2 = hand[j].valor
+
+                dif = card2 - card1
+
+                if dif <= 4 and dif!=0:
+                    count += 1
+                    if count>cont:
+                        cont=count 
+        
+        return cont

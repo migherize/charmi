@@ -8,6 +8,8 @@ from Charmi import Charmi
 from Mano import hand
 from Mesa import Mesa 
 from Probabilidades import pro
+from montecarlo import probabilidades
+from desempate import parametros
 
 mazo_poker = Mazo()
 mazo_poker.mezclar()
@@ -20,6 +22,7 @@ apuesta = 0
 ronda = 0
 altura = 0
 quemada = 0
+prob_carlos = 0
 
 qtCreatorFile = "inicio.ui" # Nombre del archivo aquí. 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile) 
@@ -46,7 +49,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.ui.bienvenido.setText(str("Hola " + user + " Bienvenido"))
 		self.ui.user.setText(str(user))
 		
-		global minima,maxima, apuesta
+		global minima,maxima, apuesta,prob_carlos
 
 		usuario.bote = usuario.bote - minima
 		charmi.bote = charmi.bote - maxima
@@ -59,10 +62,15 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.ui.bote_charmi.setText(str(charmi.bote))
 		self.ui.bote_mesa.setText(str(apuesta))
 
-		usuario.recibir_mano(mazo_poker.repartir())
 		charmi.recibir_mano(mazo_poker.repartir())
-		usuario.recibir_mano(mazo_poker.repartir())
 		charmi.recibir_mano(mazo_poker.repartir())
+
+		m_carlos=probabilidades(mazo_poker,charmi.pasar_mano())
+		prob_carlos = m_carlos.montecarlo()
+		print(prob_carlos)
+
+		usuario.recibir_mano(mazo_poker.repartir())
+		usuario.recibir_mano(mazo_poker.repartir())
 
 		U1 = imagen(usuario.mano[0].valor,usuario.mano[0].palo)
 		C1 = imagen(charmi.mano[0].valor,charmi.mano[0].palo)
@@ -99,29 +107,42 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 	def subir(self):
 		print("subio")
 
-		global apuesta
+		if usuario.bote>0:
 
-		subida = self.ui.subida.value()
-		apuesta = apuesta + subida
-		self.ui.bote_mesa.setText(str(apuesta))
-		
-		#si acepta
-		charmi.bote = charmi.bote - subida
-		apuesta = apuesta + subida
-		self.ui.bote_charmi.setText(str(charmi.bote))
-		self.ui.bote_mesa.setText(str(apuesta))
+			global apuesta,prob_carlos
 
-		if ronda  == 0:
-			self.flop()
-		elif ronda == 1:
-			self.turn()
-		elif ronda == 2:
-			self.river()
-		elif ronda == 3:
-			self.ganador()
-		elif ronda == 4:
-			self.reinicio()
-	
+			subida = self.ui.subida.value()
+			apuesta = apuesta + subida
+			usuario.bote = usuario.bote - subida
+			self.ui.bote_user.setText(str(usuario.bote))
+			self.ui.bote_mesa.setText(str(apuesta))
+			
+			#si acepta
+
+			if prob_carlos > 0.35:
+				charmi.bote = charmi.bote - subida
+				apuesta = apuesta + subida
+				self.ui.bote_charmi.setText(str(charmi.bote))
+				self.ui.bote_mesa.setText(str(apuesta))
+
+				if ronda  == 0:
+					self.flop()
+				elif ronda == 1:
+					self.turn()
+				elif ronda == 2:
+					self.river()
+				elif ronda == 3:
+					self.ganador()
+				elif ronda == 4:
+					self.reinicio()
+			else:
+				self.ui.bienvenido.setText(str("Me retiro"))
+				usuario.bote = usuario.bote + apuesta
+				self.ui.bote_user.setText(str(usuario.bote))
+				apuesta = 0
+				self.ui.bote_mesa.setText(str(apuesta))
+				self.reinicio()
+
 	def retirarse(self):
 		print("se retiro")
 
@@ -165,10 +186,19 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		if ronda  == 0:
 			self.flop()
+			self.turn()
+			self.river()
+			self.ganador()
+			ronda == 3
 		elif ronda == 1:
 			self.turn()
+			self.river()
+			self.ganador()
+			ronda == 3
 		elif ronda == 2:
 			self.river()
+			self.ganador()
+			ronda == 3
 		elif ronda == 3:
 			self.ganador()
 		elif ronda == 4:
@@ -282,13 +312,42 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 			apuesta = 0
 			self.ui.bote_mesa.setText(str(apuesta))
 		else:
-			self.ui.resultado.setText(str("empate"))
-			charmi.bote = charmi.bote + (apuesta/2)
-			self.ui.bote_charmi.setText(str(charmi.bote))
-			usuario.bote = usuario.bote + (apuesta/2)
-			self.ui.bote_user.setText(str(usuario.bote))
-			apuesta = 0
-			self.ui.bote_mesa.setText(str(apuesta))
+
+			parametro = parametros(charmi.pasar_mano(),mesa.pasar_mano())
+			parametro.unir()
+			num,cm,car_mano,car_altas =parametro.ganar(resultado)
+			suma = 0
+
+			parametro2 = parametros(usuario.pasar_mano(),mesa.pasar_mano())
+			parametro2.unir()
+			num2,cm2,car_mano2,car_altas2 =parametro2.ganar(resultado2)
+			suma2 = 0
+
+			if cm == cm2:
+				for a in range(0,2):
+					suma = suma + car_altas[a].valor
+				for b in range(0,2):
+					suma2 = suma2 + car_altas2[b].valor
+					if suma==suma2:
+						self.ui.resultado.setText(str("empate"))
+						charmi.bote = charmi.bote + (apuesta/2)
+						self.ui.bote_charmi.setText(str(charmi.bote))
+						usuario.bote = usuario.bote + (apuesta/2)
+						self.ui.bote_user.setText(str(usuario.bote))
+						apuesta = 0
+						self.ui.bote_mesa.setText(str(apuesta))
+					elif suma>suma2:
+						self.ui.resultado.setText(str("Gano Charmi"))
+						charmi.bote = charmi.bote + apuesta
+						self.ui.bote_charmi.setText(str(charmi.bote))
+						apuesta = 0
+						self.ui.bote_mesa.setText(str(apuesta))
+					elif suma2>suma:
+						self.ui.resultado.setText(str("Gano Jugador"))
+						usuario.bote = usuario.bote + apuesta
+						self.ui.bote_user.setText(str(usuario.bote))
+						apuesta = 0
+						self.ui.bote_mesa.setText(str(apuesta))
 
 	def reinicio(self):
 

@@ -125,16 +125,4 @@ class pro:
 
         return propensas
 
-
-        """
-        while n>0:
-            print("n",n)
-     elif n==1:
-            manopro = pro(n-1).prob() + pro(n-2).prob()
-            return manopro
-
-            n= n-1
-        return manopro
-        """
-
        

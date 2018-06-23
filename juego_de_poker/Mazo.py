@@ -45,24 +45,3 @@ class Mazo:
 
     def retornar(self,c):
         self.cartas.append(c)
-
-
-#mazo_poker = Mazo()
-#mazo_poker.mostrar_mazo()
-#mazo_poker.mostrar_nombres()
-#mazo_poker.mezclar()
-
-#usuario1 = Jugador("miguel","1000")
-#usuario2 = Jugador("charles","1000")
-
-#usuario1.recibir_carta(mazo_poker.Repartir())
-#usuario2.recibir_carta(mazo_poker.Repartir())
-#usuario1.recibir_carta(mazo_poker.Repartir())
-#usuario2.recibir_carta(mazo_poker.Repartir())
-
-#print("")
-#print("usuario 1: ",usuario1.name,"   bote:",usuario1.bote)
-#usuario1.mostrar_mano()
-#print("")
-#print("usuario 2: ",usuario2.name,"   bote:",usuario2.bote)
-#usuario2.mostrar_mano()

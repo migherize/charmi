@@ -4,10 +4,11 @@ import Mesa
 import Mano
 import Probabilidades
 from desempate import parametros
+from montecarlo import probabilidades
 
 mazo_poker = Mazo.Mazo()
 mesa = Mesa.Mesa()
-mazo_poker.mezclar()
+#mazo_poker.mezclar()
 
 x = 50
 y = 100
@@ -30,16 +31,25 @@ class Juego:
         self.usuario.bote = (self.usuario.bote - y)
 
     def preflop(self):
+        
+        self.charmi.recibir_mano(mazo_poker.repartirc(0))
+        self.charmi.recibir_mano(mazo_poker.repartirc(12))
+
+        m_carlos=probabilidades(mazo_poker,self.charmi.pasar_mano())
+        prob_carlos = m_carlos.montecarlo()
+
+        print("prob montecalor",prob_carlos)
+
         self.usuario.recibir_mano(mazo_poker.repartir())
-        self.charmi.recibir_mano(mazo_poker.repartir())
         self.usuario.recibir_mano(mazo_poker.repartir())
-        self.charmi.recibir_mano(mazo_poker.repartir())
+
         print("")
         print("usuario 1: ",self.usuario.name,"   bote:",self.usuario.bote)
         self.usuario.mostrar_mano()
         print("")
         print("usuario 2: ",self.charmi.name,"   bote:",self.charmi.bote)
         self.charmi.mostrar_mano()
+
 
         mano_charmi = Mano.hand(self.charmi.pasar_mano(),mesa.pasar_mano())
         mano_charmi.unir()

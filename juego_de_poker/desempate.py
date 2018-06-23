@@ -32,9 +32,6 @@ class parametros:
                     k = hand_sort[i]
                     hand_sort[i] = hand_sort[j]
                     hand_sort[j] = k
-        
-        #for a in hand_sort:
-        #    print("a",a)
 
         return hand_sort
 
@@ -46,9 +43,6 @@ class parametros:
                     k = hand_sort[i]
                     hand_sort[i] = hand_sort[j]
                     hand_sort[j] = k
-        
-        #for a in hand_sort:
-        #    print("a",a)
 
         return hand_sort
 
@@ -80,13 +74,7 @@ class parametros:
         hands = self.hand
         self.hand = self.sortc(hands)
 
-        for a in self.hand:
-            print("color",a)
-
-        a,b,c=self.escalera()
-
-        for a in c:
-            print("escacolor",a)        
+        a,b,c=self.escalera()      
 
         cartaAlta=self.jugada
         cm=self.carta_mano(cm)
@@ -100,34 +88,6 @@ class parametros:
         cm = 0
         t = 0
 
-        hands = self.hand
-        self.hand = self.sort(hands)
-
-        for v in range(0, 3):
-            m_escalera = 1
-            for c in range(v, len(self.hand)-1):
-                if (self.hand[c].valor + 1) == self.hand[c + 1].valor:
-                    m_escalera += 1
-                    if t == 0:
-                        col.append(c)
-                        col.append(c+1)
-                        t=1
-                    elif t<4:
-                        col.append(c+1)
-                        t+=1
-
-                    if m_escalera == 5:
-                        
-                        for r in range(0,5):
-                            self.jugada.append(self.hand[col[r]])  
-                        cartaAlta=self.jugada
-                        cm=self.carta_mano(cm)
-                        return self.num,cm,cartaAlta        
-                else:
-                    c=4
-                    t=0
-                    col =[]
-
         self.T_As()
 
         hands = self.hand
@@ -135,7 +95,7 @@ class parametros:
 
         for v in range(0, 3):
             m_escalera = 1
-            for c in range(v, len(self.hand)-1):
+            for c in range(v, len(self.hand)):
                 if (self.hand[c].valor + 1) == self.hand[c + 1].valor:
                     m_escalera += 1
                     if t == 0:
@@ -143,19 +103,60 @@ class parametros:
                         col.append(c+1)
                         t=1
                     elif t<4:
-                        col.append(c+1)
+                        if len(col)<=4:
+                            col.append(c+1)
                         t+=1
 
-                    if m_escalera == 5:
-                        for r in range(0,5):
-                            self.jugada.append(self.hand[col[r]])  
-                        cartaAlta=self.jugada
-                        cm=self.carta_mano(cm)
-                        return self.num,cm,cartaAlta        
+                        if m_escalera == 5:
+                            
+                            for r in range(0,5):
+                                self.jugada.append(self.hand[col[r]])  
+                            cartaAlta=self.jugada
+                            cm=self.carta_mano(cm)
+                            return self.num,cm,cartaAlta        
                 else:
                     c=4
                     t=0
+                    m_escalera=1
                     col =[]
+
+        self.T_As()
+
+
+        cartaAlta = []
+        col = []
+        self.num = 5
+        cm = 0
+        t = 0
+
+        for v in range(0, 3):
+            m_escalera = 1
+            for c in range(v, len(self.hand)):
+                if (self.hand[c].valor + 1) == self.hand[c + 1].valor:
+                    m_escalera += 1
+                    if t == 0:
+                        col.append(c)
+                        col.append(c+1)
+                        t=1
+                    elif t<4:
+                        if len(col)<=4:
+                            col.append(c+1)
+                        t+=1
+
+                        if m_escalera == 5:
+                            
+                            for r in range(0,5):
+                                self.jugada.append(self.hand[col[r]])  
+                            cartaAlta=self.jugada
+                            cm=self.carta_mano(cm)
+                            return self.num,cm,cartaAlta        
+                else:
+                    c=4
+                    t=0
+                    m_escalera=1
+                    col =[]
+
+   
 
 
     def color(self):
@@ -255,7 +256,6 @@ class parametros:
                         k=j+1
                         if self.hand[j].valor == self.hand[k].valor:
                             trio += 1
-                            print("s",t)
                             cartaAlta.append(self.hand[j])
                             self.jugada.append(self.hand[j])
                             cartaAlta.append(self.hand[k])
@@ -376,12 +376,6 @@ class parametros:
         self.hand = self.sort(hands)
         self.hand.reverse()
 
-        #for c in range(0,len(self.hand)):
-        #    for j in range(0,len(hand)):
-        #        if hand[j]!=self.hand[c]:
-        #            cartaAlta.append(self.hand[c])
-        #            break
-
         cartaAlta=self.hand
 
         return cartaAlta
@@ -409,12 +403,6 @@ class parametros:
         for r in range(0,len(remove2)):
             self.hand.pop(remove2[r]+m)
             m=m-1
-
-        #for c in range(0,len(self.hand)):
-        #    for j in range(0,len(hand)):
-        #        if hand[j]!=self.hand[c]:
-        #            cartaAlta.append(self.hand[c])
-        #            break
 
         cartaAlta=self.hand
 
