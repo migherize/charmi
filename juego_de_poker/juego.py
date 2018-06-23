@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys 
 from PyQt5 import uic, QtWidgets, QtCore, QtGui
 from sala_juego import Ui_sala 
